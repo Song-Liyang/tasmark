@@ -6,22 +6,22 @@ This program was written by Song Liyang (songly@pku.edu.cn), Peking University.
 This program was built on source code from [Bismark 0.2.0](https://github.com/FelixKrueger/Bismark) by [Felix Krueger](https://github.com/FelixKrueger)  
 
 ## Installation
-Download [tasmark](https://github.com/Song-Liyang/tasmark/blob/master/tasmark) file and execute(don't forget `chmod +x`) directly. Tasmark need `Perl`, [Bowtie2](http://bowtie-bio.sourceforge.net/bowtie2/) and [Bowtie1](http://bowtie-bio.sourceforge.net/).  
+Download [tasmark](https://github.com/Song-Liyang/tasmark/blob/master/tasmark) file and execute(don't forget `chmod +x`) directly. Tasmark need `Perl`, [Bowtie2](http://bowtie-bio.sourceforge.net/bowtie2/) and [Samtools](http://www.htslib.org/).  
 
 USAGE: `tasmark [options] <genome_folder> --index <index_name> {-1 <mates1> -2 <mates2> | <singles>}`  
 
 `<genome_folder>`  
-> The path to the folder containing the reference genome `.fa` or `fa.gz`  
+    The path to the folder containing the reference genome `.fa` or `fa.gz`  
 
 `--index <index_name>`  
-> `path/to/bowtie2/index/your_basename` Tasmark will search for `your_basename.1.bt2`.Tasmark need existing bowtie2_builder index instead of extra "genome preparation" step.  
+    `path/to/bowtie2/index/your_basename` Tasmark will search for `your_basename.1.bt2`.Tasmark need existing bowtie2_builder index instead of extra "genome preparation" step.  
 
 ` <reads>`  or  `-1 <reads1> -2 <reads2>`  
-> `fasta` file or `fastQ` file of single_end or paired_end sequencing data.  
+    `fasta` file or `fastQ` file of single_end or paired_end sequencing data.  
 
-`-o` Output directoy (current directoy default).  
-`--multicore <int>` Run on multiple CPUs.  
-`--non_directional` Library prep with multiple rounds of random primming just after C->T conversion.  
+`-o`    Output directoy (current directoy default).  
+`--multicore <int>`   Run on multiple CPUs.  
+`--non_directional`   Library prep with multiple rounds of random primming just after C->T conversion.  
 
 Other options is almost same to `Bismark`. Use `--help` for detail.
 
