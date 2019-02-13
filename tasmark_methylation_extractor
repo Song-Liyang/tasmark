@@ -1225,7 +1225,7 @@ VERSION
 
   ### COMPREHENSIVE OUTPUT
   unless ($full){
-    $full = 0;
+    $full = 1;  # Song Liyang modified to 1
   }
 
   ### MERGE NON-CpG context
