@@ -1578,17 +1578,18 @@ sub process_Tasmark_results_file{
 	my $index;
 	if ($meth_call) {
 
-	  if ($read_conversion eq 'CT' and $genome_conversion eq 'CT') { ## original top strand
-	    $index = 0;
-	  } elsif ($read_conversion eq 'GA' and $genome_conversion eq 'CT') { ## complementary to original top strand
-	    $index = 1;
-	  } elsif ($read_conversion eq 'CT' and $genome_conversion eq 'GA') { ## original bottom strand
-	    $index = 3;
-	  } elsif ($read_conversion eq 'GA' and $genome_conversion eq 'GA') { ## complementary to original bottom strand
-	    $index = 2;
-	  } else {
-	    die "Unexpected combination of read and genome conversion: '$read_conversion' / '$genome_conversion'\n";
-	  }
+	  # if ($read_conversion eq 'CT' and $genome_conversion eq 'CT') { ## original top strand
+	  #   $index = 0;
+	  # } elsif ($read_conversion eq 'GA' and $genome_conversion eq 'CT') { ## complementary to original top strand
+	  #   $index = 1;
+	  # } elsif ($read_conversion eq 'CT' and $genome_conversion eq 'GA') { ## original bottom strand
+	  #   $index = 3;
+	  # } elsif ($read_conversion eq 'GA' and $genome_conversion eq 'GA') { ## complementary to original bottom strand
+	  #   $index = 2;
+	  # } else {
+	  #   die "Unexpected combination of read and genome conversion: '$read_conversion' / '$genome_conversion'\n";
+	  # }
+    $index = 0;
 
 	  ### Clipping off the first <int> number of bases from the methylation call string as specified with --ignore <int>
 	  if ($ignore) {
@@ -1669,7 +1670,7 @@ sub process_Tasmark_results_file{
 	# < 0.7.6 $read_conversion =~ s/^XR:Z://;
 	# < 0.7.6 $genome_conversion =~ s/^XG:Z://;
 
-	my ($id,$chrom,$start,$cigar) = (split("\t"))[0,2,3,5];
+	my ($id,$bt_flag,$chrom,$start,$cigar) = (split("\t"))[0,1,2,3,5]; # Song add bowtie2_flag
 
 	### detecting the following SAM flags in case the SAM entry was shuffled by CRAM or Goby compression/decompression
 	my $meth_call;	  ### Thanks to Zachary Zeno for this solution
@@ -1697,21 +1698,27 @@ sub process_Tasmark_results_file{
 
 	my $index;
 	if ($meth_call) {
-	  if ($read_conversion eq 'CT' and $genome_conversion eq 'CT') { ## original top strand
-	    $index = 0;
-	    $strand = '+';
-	  } elsif ($read_conversion eq 'GA' and $genome_conversion eq 'CT') { ## complementary to original top strand
-	    $index = 1;
-	    $strand = '-';
-	  } elsif ($read_conversion eq 'GA' and $genome_conversion eq 'GA') { ## complementary to original bottom strand
-	    $index = 2;
-	    $strand = '+';
-	  } elsif ($read_conversion eq 'CT' and $genome_conversion eq 'GA') { ## original bottom strand
-	    $index = 3;
-	    $strand = '-';
-	  } else {
-	    die "Unexpected combination of read and genome conversion: '$read_conversion' / '$genome_conversion'\n";
-	  }
+	  # if ($read_conversion eq 'CT' and $genome_conversion eq 'CT') { ## original top strand
+	  #   $index = 0;
+	  #   $strand = '+';
+	  # } elsif ($read_conversion eq 'GA' and $genome_conversion eq 'CT') { ## complementary to original top strand
+	  #   $index = 1;
+	  #   $strand = '-';
+	  # } elsif ($read_conversion eq 'GA' and $genome_conversion eq 'GA') { ## complementary to original bottom strand
+	  #   $index = 2;
+	  #   $strand = '+';
+	  # } elsif ($read_conversion eq 'CT' and $genome_conversion eq 'GA') { ## original bottom strand
+	  #   $index = 3;
+	  #   $strand = '-';
+	  # } else {
+	  #   die "Unexpected combination of read and genome conversion: '$read_conversion' / '$genome_conversion'\n";
+	  # }
+    $index = 0;
+    if (($bt_flag & 16) == 0){
+      $strand = '+';
+    } else {
+      $strand = '-';
+    }
 
 	  ### If the read is in SAM format we need to reverse the methylation call if the read has been reverse-complemented for the output
 	  if ($strand eq '-') {
@@ -1941,17 +1948,18 @@ sub process_Tasmark_results_file{
 	my $index;
 	chomp $genome_conversion;
 
-	if ($first_read_conversion eq 'CT' and $genome_conversion eq 'CT') {
-	  $index = 0;		## this is OT
-	} elsif ($first_read_conversion eq 'GA' and $genome_conversion eq 'GA') {
-	  $index = 2;		## this is CTOB!!!
-	} elsif ($first_read_conversion eq 'GA' and $genome_conversion eq 'CT') {
-	  $index = 1;		## this is CTOT!!!
-	} elsif ($first_read_conversion eq 'CT' and $genome_conversion eq 'GA') {
-	  $index = 3;		## this is OB
-	} else {
-	  die "Unexpected combination of read and genome conversion: $first_read_conversion / $genome_conversion\n";
-	}
+	# if ($first_read_conversion eq 'CT' and $genome_conversion eq 'CT') {
+	#   $index = 0;		## this is OT
+	# } elsif ($first_read_conversion eq 'GA' and $genome_conversion eq 'GA') {
+	#   $index = 2;		## this is CTOB!!!
+	# } elsif ($first_read_conversion eq 'GA' and $genome_conversion eq 'CT') {
+	#   $index = 1;		## this is CTOT!!!
+	# } elsif ($first_read_conversion eq 'CT' and $genome_conversion eq 'GA') {
+	#   $index = 3;		## this is OB
+	# } else {
+	#   die "Unexpected combination of read and genome conversion: $first_read_conversion / $genome_conversion\n";
+	# }
+  $index = 0;
 
 	if ($meth_call_1 and $meth_call_2) {
 	  ### Clipping off the first <int> number of bases from the methylation call strings as specified with '--ignore <int>'
@@ -2042,7 +2050,7 @@ sub process_Tasmark_results_file{
 	# 1_R1/1	67	5	103172224	255	40M	=	103172417	233	AATATTTTTTTTATTTTAAAATGTGTATTGATTTAAATTT	IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII	NM:i:4	XX:Z:4T1T24TT7	XM:Z:....h.h........................hh.......	XR:Z:CT	XG:Z:CT
 	# 1_R1/2	131	5	103172417	255	40M	=	103172224	-233	TATTTTTTTTTAGAGTATTTTTTAATGGTTATTAGATTTT	IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII	NM:i:6	XX:Z:T5T1T9T9T7T3	XM:Z:h.....h.h.........h.........h.......h...	XR:Z:GA	XG:Z:CT
 
-	my ($id_1,$chrom,$start_read_1,$cigar_1) = (split("\t"))[0,2,3,5]; ### detecting the following SAM flags in case the SAM entry was shuffled by CRAM or Goby compression/decompression
+	my ($id_1,$bt_flag_1,$chrom,$start_read_1,$cigar_1) = (split("\t"))[0,1,2,3,5]; ### detecting the following SAM flags in case the SAM entry was shuffled by CRAM or Goby compression/decompression
 	my $meth_call_1;
 	my $first_read_conversion;
 	my $genome_conversion;
@@ -2092,21 +2100,27 @@ sub process_Tasmark_results_file{
 	my $index;
 	my $strand;
 
-	if ($first_read_conversion eq 'CT' and $genome_conversion eq 'CT') {
-	  $index = 0;		## this is OT
-	  $strand = '+';
-	} elsif ($first_read_conversion eq 'GA' and $genome_conversion eq 'CT') {
-	  $index = 1;		## this is CTOT
-	  $strand = '-';
-	} elsif ($first_read_conversion eq 'GA' and $genome_conversion eq 'GA') {
-	  $index = 2;		## this is CTOB
-	  $strand = '+';
-	} elsif ($first_read_conversion eq 'CT' and $genome_conversion eq 'GA') {
-	  $index = 3;		## this is OB
-	  $strand = '-';
-	} else {
-	  die "Unexpected combination of read and genome conversion: $first_read_conversion / $genome_conversion\n";
-	}
+	# if ($first_read_conversion eq 'CT' and $genome_conversion eq 'CT') {
+	#   $index = 0;		## this is OT
+	#   $strand = '+';
+	# } elsif ($first_read_conversion eq 'GA' and $genome_conversion eq 'CT') {
+	#   $index = 1;		## this is CTOT
+	#   $strand = '-';
+	# } elsif ($first_read_conversion eq 'GA' and $genome_conversion eq 'GA') {
+	#   $index = 2;		## this is CTOB
+	#   $strand = '+';
+	# } elsif ($first_read_conversion eq 'CT' and $genome_conversion eq 'GA') {
+	#   $index = 3;		## this is OB
+	#   $strand = '-';
+	# } else {
+	#   die "Unexpected combination of read and genome conversion: $first_read_conversion / $genome_conversion\n";
+	# }
+  $index = 0;
+  if (($bt_flag_1 & 16) == 0){
+    $strand = '+';
+  } else {
+    $strand = '-';
+  }
 
 	### reversing the methylation call of the read that was reverse-complemented
 	if ($strand eq '+') {
