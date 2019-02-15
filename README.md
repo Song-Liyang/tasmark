@@ -5,7 +5,7 @@ https://github.com/Song-Liyang/tasmark
 This program was written by Song Liyang (songly@pku.edu.cn), Peking University.  
 This program was built on source code from [Bismark 0.2.0](https://github.com/FelixKrueger/Bismark) by [Felix Krueger](https://github.com/FelixKrueger)  
 
-## Installation
+## Usage
 Download [tasmark](https://github.com/Song-Liyang/tasmark/blob/master/tasmark) file and execute(don't forget `chmod +x`) directly. Tasmark need `Perl`, [Bowtie2](http://bowtie-bio.sourceforge.net/bowtie2/) and [Samtools](http://www.htslib.org/).  
 
 USAGE: `tasmark [options] <genome_folder> --index <index_name> {-1 <mates1> -2 <mates2> | <singles>}`  
