@@ -60,5 +60,5 @@ For methylation call string (`XM-tag`), same like `Bismark`.
 tasmark_methylation_extractor
 extract methylation call to bed file, same function in bismark.
 usage:
-`./tasmark_methylation_extractor yoursample.sam `
+`./tasmark_methylation_extractor yoursample.sam `  
 use `--bedgraph` to make a cov file (make sure tasmark2bedGraph has been downloaded).
