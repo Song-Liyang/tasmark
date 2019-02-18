@@ -4194,48 +4194,42 @@ sub extract_corresponding_genomic_sequence_paired_ends_bowtie2{
   # Song
   if ($directional){
     if (($methylation_call_params->{$sequence_identifier}->{flag_1} & 16) == 0){
-      ### [Index 0, sequence originated from (converted) forward strand]
+      ### upper strand
       # $counting{CT_GA_CT_count}++;
       $counting{forward_read_count}++;
       $counting{forward_read_1_count}++;
       $alignment_read_1 = '+';
       $read_conversion_info_1 = 'CT'; # Song It should be 'GA' if --pbat
       $genome_conversion = 'NN';
+
+      $counting{reverse_read_count}++;
+      $counting{reverse_read_2_count}++;
+      $alignment_read_2 = '-';
+      $read_conversion_info_2 = 'GA';
+      $genome_conversion = 'NN';
+      $non_bisulfite_sequence_2 = reverse_complement($non_bisulfite_sequence_2);
+      if ($contains_deletion_2){
+        $genomic_seq_for_MD_tag_2 = reverse_complement($genomic_seq_for_MD_tag_2);
+      }
     }
     else {
-      ### [Index 1, sequence originated from complementary to (converted) bottom strand]
+      ### bottom strand
       $counting{reverse_read_count}++;
       $counting{reverse_read_1_count}++;
       $alignment_read_1 = '-';
-      $read_conversion_info_1 = 'GA';
+      $read_conversion_info_1 = 'CT';
       $genome_conversion = 'NN';
       ### Read 1 (the reverse strand) genomic sequence needs to be reverse complemented
       $non_bisulfite_sequence_1 = reverse_complement($non_bisulfite_sequence_1);
       if ($contains_deletion_1){
         $genomic_seq_for_MD_tag_1 = reverse_complement($genomic_seq_for_MD_tag_1);
       }
-    }
 
-    if (($methylation_call_params->{$sequence_identifier}->{flag_2} & 16) == 0){
-      ### [Index 2, sequence originated from the complementary to (converted) top strand]
       $counting{forward_read_count}++;
       $counting{forward_read_2_count}++;
       $alignment_read_2 = '+';
-      $read_conversion_info_2 = 'CT';
-      $genome_conversion = 'NN';
-    }
-    else {
-      ### [Index 3, sequence originated from the (converted) reverse strand]
-      $counting{reverse_read_count}++;
-      $counting{reverse_read_2_count}++;
-      $alignment_read_2 = '-';
       $read_conversion_info_2 = 'GA';
       $genome_conversion = 'NN';
-      ### Read 1 (the reverse strand) genomic sequence needs to be reverse complemented
-      $non_bisulfite_sequence_2 = reverse_complement($non_bisulfite_sequence_2);
-      if ($contains_deletion_2){
-        $genomic_seq_for_MD_tag_2 = reverse_complement($genomic_seq_for_MD_tag_2);
-      }
     }
   }
   else {

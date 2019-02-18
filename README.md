@@ -17,7 +17,7 @@ USAGE: `tasmark [options] <genome_folder> --index <index_name> {-1 <mates1> -2 <
     `path/to/bowtie2/index/your_basename` Tasmark will search for `your_basename.1.bt2`.Tasmark need existing bowtie2_builder index instead of extra "genome preparation" step.  
 
 ` <reads>`  or  `-1 <reads1> -2 <reads2>`  
-    `fasta` file or `fastQ` file of single_end or paired_end sequencing data.  
+    `fasta` file or `fastQ` file of single_end(read1 only) or paired_end sequencing data.  
 
 `-o`    Output directoy (current directoy default).  
 `--multicore <int>`   Run on multiple CPUs.  
