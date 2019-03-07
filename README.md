@@ -1,5 +1,5 @@
 # tasmark
-A Bioinformatic Toolkit for DNA Methylation Sequencing  
+A Bioinformatic Toolkit for TAPS DNA Methylation Sequencing  
 v0.1.0 by Song Liyang  
 https://github.com/Song-Liyang/tasmark  
 This program was written by Song Liyang (songly@pku.edu.cn), Peking University.  
